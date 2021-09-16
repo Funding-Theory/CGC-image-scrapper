@@ -58,6 +58,13 @@ def get_image_urls(metadata):
 	print(f"{Fore.RED}{metadata['id']} - not found".center(columns))
 	return []
 
+# Downloading images and saving it to the respective folders
+def download_images(link_info):
+	try:
+		wget.download(link_info['url'], bar = None, out = link_info['folder'])
+	except:
+		pass
+
 # Initial Setup
 init(autoreset = True)
 columns 	= shutil.get_terminal_size().columns
@@ -82,21 +89,8 @@ print(f"{Fore.GREEN}Generating the list of urls to hit".center(columns))
 with WorkerPool(n_jobs = 100) as pool:
 	all_url = pool.map(get_image_urls, make_single_arguments(metadata, generator = False), progress_bar = True)
 
+url_list = list(itertools.chain(*list(itertools.chain(*url_list))))
 
-# def get_data(url):
-# 	try:
-# 		wget.download(url, bar = None)
-# 		print(url)
-# 	except:
-# 		pass
-
-# url_list = []
-
-
-# url_list = list(itertools.chain(*url_list))
-
-
-
-# important links
-# https://camic-viewer-prod.isb-cgc.org/camicroscope/api/Data/osdMetadataRetrieverFromSlideBarcode.php?imageId=18928bce-fc20-4062-b2b3-0f6c007182e5
-# 
+print(f"{Fore.GREEN}Downloading the list of urls".center(columns))
+with WorkerPool(n_jobs = 250) as pool:
+	images = pool.map(download_images, make_single_arguments(url_list, generator = False), progress_bar = True)
