@@ -89,7 +89,7 @@ print(f"{Fore.GREEN}Generating the list of urls to hit".center(columns))
 with WorkerPool(n_jobs = 100) as pool:
 	all_url = pool.map(get_image_urls, make_single_arguments(metadata, generator = False), progress_bar = True)
 
-url_list = list(itertools.chain(*list(itertools.chain(*url_list))))
+url_list = list(itertools.chain(*list(itertools.chain(*all_url))))
 
 print(f"{Fore.GREEN}Downloading the list of urls".center(columns))
 with WorkerPool(n_jobs = 250) as pool:
