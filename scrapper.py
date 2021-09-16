@@ -61,6 +61,7 @@ def get_image_urls(metadata):
 
 # Downloading images and saving it to the respective folders
 def download_images(link_info):
+	os.makedirs(link_info['folder'], exist_ok = True)
 	try:
 		wget.download(link_info['url'], bar = None, out = link_info['folder'])
 	except:
@@ -91,7 +92,6 @@ with WorkerPool(n_jobs = 100) as pool:
 	all_url = pool.map(get_image_urls, make_single_arguments(metadata, generator = False), progress_bar = True)
 
 url_list = list(itertools.chain(*list(itertools.chain(*all_url))))
-print(url_list[0])
 
 print(f"{Fore.GREEN}Downloading the list of urls".center(columns))
 with WorkerPool(n_jobs = 250) as pool:
