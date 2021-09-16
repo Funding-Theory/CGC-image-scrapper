@@ -1,3 +1,4 @@
+import os
 import time
 import wget
 import math
@@ -49,7 +50,7 @@ def get_image_urls(metadata):
 		for j in range(pixel_width):
 			url_list.append([
 				{
-					'folder': f"{metadata['id']}/17/",
+					'folder': f"{os.getcwd()}/{metadata['id']}/17/",
 					'url'	: f"{metadata['image_url']}17/{j}_{k}.jpeg",
 				} 
 				for k in range(pixel_height)
