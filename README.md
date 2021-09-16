@@ -5,7 +5,7 @@
 > Install Dependencies
 
 ```bash
-pip install mpire tqdm pandas requests wget itertools colorama
+pip install mpire tqdm pandas requests wget colorama
 ```
 
 ## Input format
